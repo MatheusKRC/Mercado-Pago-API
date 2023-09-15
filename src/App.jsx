@@ -1,6 +1,6 @@
-import React from "react";
-import "./CSS/App.css";
-import Home from "./Pages/Home";
+import React from 'react';
+import './CSS/App.css';
+import Home from './Pages/Home';
 
 // const api = axios.create({
 //   baseURL: "https://api.mercadopago.com"
@@ -8,7 +8,7 @@ import Home from "./Pages/Home";
 
 function App() {
   return (
-    <Home/>
+    <Home />
   );
 }
 

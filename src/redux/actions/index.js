@@ -1,6 +1,6 @@
-export const USER_ACTION = 'USER_ACTION'
+export const USER_ACTION = 'USER_ACTION';
 
 export const userAction = (state) => ({
-    type: 'USER_ACTION',
-    state
+  type: 'USER_ACTION',
+  state,
 });
