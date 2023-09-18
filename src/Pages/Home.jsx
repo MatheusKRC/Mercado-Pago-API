@@ -1,43 +1,80 @@
-import React from 'react';
-import chip from '../Images/chip.png';
-import bank from '../Images/bank.png';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import CreditCard from '../Components/CreditCard';
+import { userAction } from '../redux/actions';
 import StepsLine from '../Components/StepsLine';
 
-function Home() {
+function Home({ setUser }) {
+  const [form, setForm] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    cpf: '',
+  });
+  const navigate = useNavigate();
+
+  const handleChange = ({ target }) => {
+    const { name } = target;
+    setForm({
+      ...form,
+      [name]: target.value,
+    });
+  };
+
+  const handleClick = () => {
+    setUser(form);
+    navigate('plans');
+  };
+
   return (
     <div>
       <h1>Dados Pessoais</h1>
 
-      <div>
-        <img src={chip} alt="chip de cartão de crédito" />
-        <img src={bank} alt="icone de banco generico" />
+      <CreditCard />
 
-        <h3>**** **** **** ****</h3>
-
-        <p>Nome do Titular</p>
-        <h3>Insira Seu Nome</h3>
-
-        <p>Data de Vencimento</p>
-        <h3>00/00</h3>
-      </div>
-
-      <form>
+      <form onSubmit={handleClick}>
         Nome
-        <input type="text" />
+        <input
+          name="nome"
+          type="text"
+          onChange={handleChange}
+          required
+        />
 
         E-Mail
-        <input type="text" />
+        <input
+          name="email"
+          type="email"
+          onChange={handleChange}
+          required
+        />
 
         Telefone
-        <input type="text" />
+        <input
+          name="telefone"
+          type="tel"
+          onChange={handleChange}
+          required
+        />
 
         CPF
-        <input type="text" />
+        <input
+          name="cpf"
+          type="text"
+          pattern="(\d{3}\.?\d{3}\.?\d{3}-?\d{2})|(\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})"
+          onChange={handleChange}
+          required
+        />
 
-        <button type="button">
+        <button
+          type="submit"
+        >
           Enviar
 
         </button>
+
       </form>
 
       <StepsLine />
@@ -45,4 +82,12 @@ function Home() {
   );
 }
 
-export default Home;
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (user) => dispatch(userAction(user)),
+});
+
+Home.propTypes = {
+  setUser: propTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Home);

@@ -5,10 +5,11 @@ const INITIAL_STATE = {
   cpf: '',
 };
 
-const user = (action, state = INITIAL_STATE) => {
-  switch (action) {
+// eslint-disable-next-line default-param-last
+const user = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
     case 'USER_ACTION':
-      return { ...state };
+      return action.state;
     default:
       return state;
   }
