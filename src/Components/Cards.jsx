@@ -1,16 +1,18 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { planAction } from '../redux/actions';
 
 function Cards({
   title, desc, value, points, setPlan,
 }) {
   const [planValue, setValue] = useState(value);
+  const [select, setSelect] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
     const plan = {
@@ -20,8 +22,16 @@ function Cards({
       points,
     };
     setPlan(plan);
-    return navigate('/Pagamento');
+    return navigate('/pagamento');
   };
+
+  useEffect(() => {
+    if (location.pathname === '/pagamento') {
+      setSelect(false);
+    } else {
+      setSelect(true);
+    }
+  }, []);
 
   const changeValue = ({ target }) => {
     setValue(target.value);
@@ -45,6 +55,7 @@ function Cards({
         <li key={index}>{list}</li>
       ))}
 
+      {select && (
       <button
         onClick={handleClick}
         type="button"
@@ -52,6 +63,7 @@ function Cards({
         Começar
 
       </button>
+      )}
 
     </div>
   );
