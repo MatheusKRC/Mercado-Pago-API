@@ -20,7 +20,7 @@ function Cards({
       points,
     };
     setPlan(plan);
-    return navigate('/Pagamento');
+    return navigate('/pagamento');
   };
 
   const changeValue = ({ target }) => {
