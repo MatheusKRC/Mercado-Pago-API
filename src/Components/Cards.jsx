@@ -42,7 +42,7 @@ function Cards({
 
       <p>{desc}</p>
 
-      {value !== 'R$0,00' ? <h2>{value}</h2>
+      {value !== 'R$0.00' ? <h2>{value}</h2>
         : (
           <input
             onChange={changeValue}

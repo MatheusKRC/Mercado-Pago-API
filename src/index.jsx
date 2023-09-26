@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './CSS/index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import dotenv from 'dotenv';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store/store';
+
+dotenv.config();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
