@@ -8,7 +8,6 @@ import StepsLine from '../Components/StepsLine';
 import Cards from '../Components/Cards';
 import PixMethod from '../Components/PixMethod';
 import CardMethod from '../Components/CardMethod';
-// import { getPaymentMethods, postPayment } from '../services/api';
 
 function Payment({ plan, user }) {
   const [method, setMethod] = useState('');
@@ -20,7 +19,7 @@ function Payment({ plan, user }) {
   });
 
   api.interceptors.request.use(async (config) => {
-    const token = process.env.TOKEN_MERCADO_PAGO;
+    const token = process.env.REACT_APP_TOKEN_MERCADO_PAGO;
     config.headers.Authorization = `Bearer ${token}`;
 
     return config;
