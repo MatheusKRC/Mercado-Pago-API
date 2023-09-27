@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import StepsLine from '../Components/StepsLine';
 import Cards from '../Components/Cards';
 import PixMethod from '../Components/PixMethod';
@@ -12,11 +14,15 @@ import CardMethod from '../Components/CardMethod';
 function Payment({ plan, user }) {
   const [method, setMethod] = useState('');
   const [qrCode, setQrCode] = useState('');
+  const [id, setId] = useState('');
+  const [status, setStatus] = useState('');
   const [copy, setCopy] = useState('');
 
   const api = axios.create({
     baseURL: 'https://api.mercadopago.com',
   });
+
+  const navigate = useNavigate();
 
   api.interceptors.request.use(async (config) => {
     const token = process.env.REACT_APP_TOKEN_MERCADO_PAGO;
@@ -53,6 +59,7 @@ function Payment({ plan, user }) {
     };
     api.post('v1/payments', body).then((response) => {
       const { qr_code, qr_code_base64 } = response.data.point_of_interaction.transaction_data;
+      setId(response.data.id);
       setQrCode(qr_code_base64);
       setCopy(qr_code);
     }).catch((err) => {
@@ -60,6 +67,23 @@ function Payment({ plan, user }) {
       alert(err);
     });
   };
+
+  const verifyStatus = () => {
+    if (id) {
+      api.get(`v1/payments/${id}`).then((response) => {
+        const paymentStatus = response.data.status;
+        setStatus(paymentStatus);
+      });
+    }
+    return status;
+  };
+  setInterval(verifyStatus, 30000);
+
+  useEffect(() => {
+    if (status === 'approved') {
+      return navigate('/Final');
+    } return console.log('Aguardando Pagamento');
+  }, [status]);
 
   return (
     <div>
